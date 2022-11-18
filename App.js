@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import * as ImagePicker from "expo-image-picker";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View, Text } from "react-native";
 import Button from "./components/Button";
 import ImageViewer from "./components/ImageViewer";
 import React, { useState } from "react";
@@ -9,6 +9,7 @@ const placeholderImage = require("./assets/placeholder.jpg");
 
 export default function App() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [counter, setCounter] = useState(0);
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -23,13 +24,22 @@ export default function App() {
       alert("You have not selected an image");
     }
   };
+
+  const incrementCounter = () => {
+    setCounter(counter + 1);
+  };
+
+  const decrementCounter = () => {
+    setCounter(counter - 1);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.imagecontainer}>
-        <ImageViewer
+        {/*         <ImageViewer
           placeholder={placeholderImage}
           selectedImage={selectedImage}
-        />
+        /> */}
+        <Text style={styles.counter}>{counter}</Text>
       </View>
       <View style={styles.buttoncontainer}>
         <Button
@@ -38,6 +48,12 @@ export default function App() {
           onPress={pickImageAsync}
         />
         <Button title="Use this photo" />
+        <Pressable title="Increment" onPress={incrementCounter}>
+          <Text>Increment</Text>
+        </Pressable>
+        <Pressable title="Decrement" onPress={decrementCounter}>
+          <Text>Decrement</Text>
+        </Pressable>
       </View>
       <StatusBar style="auto" />
     </View>
@@ -58,7 +74,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   buttoncontainer: {
-    flex: 1 / 3,
+    flex: 3,
     alignItems: "center",
     justifyContent: "center",
   },
